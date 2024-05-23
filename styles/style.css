@@ -1,0 +1,81 @@
+.container-marcas {
+  display: grid;
+  justify-content: center; /* Centraliza o grid horizontalmente */
+  align-items: center; /* Centraliza o grid verticalmente */
+  margin: 0 auto; /* Define margens automáticas nas laterais */
+  max-width: 1200px; /* Define uma largura máxima para o grid */
+  padding: 0 20px; /* Adiciona um preenchimento interno nas laterais */
+  grid-gap: 20px; /* Define o espaçamento entre os elementos do grid */
+  grid-template-columns: repeat(5, 1fr);
+}
+
+@media (max-width: 1200px) {
+  .container-marcas {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .container-marcas {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .container-marcas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .container-marcas {
+    grid-template-columns: 1fr;
+  }
+}
+
+.marcas {
+  display: flex;
+  justify-content: center;
+  border: solid black 1px;
+  height: 55px;
+  margin: 5px;
+  background-color: #fff;
+}
+
+.marcas a {
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: larger;
+}
+
+.h5-marca-control {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.h5-marca-control:hover {
+  color: rgb(221, 19, 19);
+}
+
+.container-line {
+  margin-top: 100px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.container-line h2:hover {
+  cursor: default;
+  color: rgb(221, 19, 19);
+}
+
+.container-stripe {
+  border: solid, black 2px;
+  height: 2px;
+  width: 80%;
+}
