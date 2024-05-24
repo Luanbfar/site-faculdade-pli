@@ -43,7 +43,7 @@ var carrosDisponiveis = {
     quantidade: 10,
   },
   carro4: {
-    nome: "Tomasmo",
+    nome: "De Tomaso",
     valor: 3467840,
     quantidade: 10,
   },
