@@ -24,6 +24,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.addEventListener("scroll", handleScroll);
   window.addEventListener("resize", handleScroll);
+
+  const loginButton = document.getElementById("login-button");
+
+  if (loginButton) {
+    loginButton.addEventListener("click", function (event) {
+      window.location.href = "index.html";
+    });
+  }
 });
 
 var carrosDisponiveis = {

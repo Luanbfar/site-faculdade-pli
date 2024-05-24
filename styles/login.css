@@ -1,0 +1,24 @@
+body {
+  background: rgb(102, 13, 13) !important;
+  color: white;
+}
+
+.card {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+}
+
+.form-control {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+#login-button {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+#login-button:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
