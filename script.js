@@ -3,7 +3,7 @@ function numberWithCommas(x) {
 }
 
 async function fetchCars() {
-  const response = await fetch("http://localhost:3000/cars");
+  const response = await fetch("http://localhost:8080/cars");
   const cars = await response.json();
   const carsDiv = document.getElementById("cars");
   carsDiv.innerHTML = "";
@@ -35,13 +35,14 @@ async function fetchCars() {
 
 async function addCar(event) {
   event.preventDefault();
-  const name = document.getElementById("name").value;
+  const rawName = document.getElementById("name").value;
+  const name = rawName ? rawName.trim() : "";
   const price = Number(document.getElementById("price").value);
   const quantity = Number(document.getElementById("quantity").value);
   if (!name || !price || !quantity) {
     alert("Insira valores válidos");
   } else {
-    await fetch("http://localhost:3000/cars", {
+    await fetch("http://localhost:8080/cars", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, price, quantity }),
@@ -51,17 +52,18 @@ async function addCar(event) {
 }
 
 async function editCar(id, name, price, quantity) {
-  const newName = prompt("Insira o novo nome", name).trim();
+  const newName = prompt("Insira o novo nome", name);
+  const trimmedNewName = newName ? newName.trim() : "";
   const newPrice = Number(prompt("Insira o novo preço", price));
   const newQuantity = Number(prompt("Insira a nova quantidade", quantity));
-  if (!newName || !newPrice || !newQuantity) {
+  if (!trimmedNewName || !newPrice || !newQuantity) {
     alert("Valores não podem ser nulos");
   } else {
-    await fetch(`http://localhost:3000/cars/${id}`, {
+    await fetch(`http://localhost:8080/cars/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: newName,
+        name: trimmedNewName,
         price: newPrice,
         quantity: newQuantity,
       }),
@@ -71,7 +73,7 @@ async function editCar(id, name, price, quantity) {
 }
 
 async function deleteCar(id) {
-  await fetch(`http://localhost:3000/cars/${id}`, { method: "DELETE" });
+  await fetch(`http://localhost:8080/cars/${id}`, { method: "DELETE" });
   fetchCars();
 }
 
