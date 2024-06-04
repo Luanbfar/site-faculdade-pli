@@ -3,7 +3,7 @@ function numberWithCommas(x) {
 }
 
 async function fetchCars() {
-  const response = await fetch("http://localhost:3000/api/cars");
+  const response = await fetch("http://localhost:3000/cars");
   const cars = await response.json();
   const carsDiv = document.getElementById("cars");
   carsDiv.innerHTML = "";
@@ -41,7 +41,7 @@ async function addCar(event) {
   if (!name || !price || !quantity) {
     alert("Insira valores válidos");
   } else {
-    await fetch("http://localhost:3000/api/cars", {
+    await fetch("http://localhost:3000/cars", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, price, quantity }),
@@ -57,7 +57,7 @@ async function editCar(id, name, price, quantity) {
   if (!newName || !newPrice || !newQuantity) {
     alert("Valores não podem ser nulos");
   } else {
-    await fetch(`http://localhost:3000/api/cars/${id}`, {
+    await fetch(`http://localhost:3000/cars/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -71,7 +71,7 @@ async function editCar(id, name, price, quantity) {
 }
 
 async function deleteCar(id) {
-  await fetch(`http://localhost:3000/api/cars/${id}`, { method: "DELETE" });
+  await fetch(`http://localhost:3000/cars/${id}`, { method: "DELETE" });
   fetchCars();
 }
 

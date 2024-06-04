@@ -73,15 +73,17 @@
       </div>
     </nav>
     <div class="container">
-        <div id="cars"></div>
+      <div id="cars"></div>
     </div>
-    <div class="container mt-5 p-5 d-flex justify-content-center align-items-center">
-        <form id="car-form">
-            <input type="text" id="name" placeholder="Nome do carro" >
-            <input type="number" id="price" placeholder="Preço do carro" >
-            <input type="number" id="quantity" placeholder="Quantidade do carro" >
-            <button type="submit" class="btn btn-primary">Adicionar</button>
-        </form>
+    <div
+      class="container mt-5 p-5 d-flex justify-content-center align-items-center"
+    >
+      <form id="car-form">
+        <input type="text" id="name" placeholder="Nome do carro" required />
+        <input type="number" id="price" placeholder="Preço do carro" required />
+        <input type="number" id="quantity" placeholder="Quantidade" required />
+        <button type="submit" class="btn btn-primary">Adicionar</button>
+      </form>
     </div>
     <script type="text/javascript" src="script.js"></script>
     <script type="text/javascript" src="animations.js"></script>
