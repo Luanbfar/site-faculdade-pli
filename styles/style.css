@@ -99,22 +99,23 @@ h2 {
   border-radius: 10px;
 }
 
-@keyframes slideInLeft {
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateX(-100%);
+    transform: translateY(100%);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
 .card {
   opacity: 0;
-  transition: opacity 0.5s ease-out;
+  transform: translateY(100%);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
-.card.slide-in-left {
-  animation: slideInLeft 0.5s forwards;
+.card.fade-in-up {
+  animation: fadeInUp 0.5s forwards;
 }

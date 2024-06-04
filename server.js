@@ -40,7 +40,7 @@ app.get("/cars/:id", (req, res) => {
 app.post("/cars", (req, res) => {
   const { name, price, quantity } = req.body;
   const car = { name, price, quantity };
-  if (car) {
+  if (car && name && price && quantity) {
     db.query("INSERT INTO cars SET ?", car, (err, result) => {
       if (err) throw err;
       res.json({ id: result.insertId, ...car });
@@ -70,5 +70,5 @@ app.delete("/cars/:id", (req, res) => {
 
 const port = 8080;
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });

@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const handleScroll = () => {
     cards.forEach((card) => {
       if (isElementInViewport(card)) {
-        card.classList.add("slide-in-left");
+        card.classList.add("fade-in-up");
       }
     });
   };
