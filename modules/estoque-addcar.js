@@ -4,6 +4,7 @@ function createCard(id, name, price) {
 
   const cardDiv = document.createElement("div");
   cardDiv.className = "card shadow bg-black rounded-0";
+  cardDiv.id = id;
 
   const img = document.createElement("img");
   img.src = "images/carro1.webp";
