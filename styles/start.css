@@ -71,7 +71,7 @@
 .image-content {
   position: absolute;
   top: 0;
-  right: 0;
+  right: -30%;
   width: 100%;
   height: 100%;
   background-image: url("https://www.desktopbackground.org/download/1600x900/2010/08/03/58563_download-1920x1080-hd-wallpapers-ferrari-sports-car-luxury-mansion_1920x1080_h.jpg");
@@ -103,7 +103,8 @@
   transform: translateX(-60vmin);
 }
 .wrap:hover .image-content {
-  width: 30vmin;
+  width: 0;
+  right: 0;
 }
 .wrap:hover .overlay-content {
   border: none;
