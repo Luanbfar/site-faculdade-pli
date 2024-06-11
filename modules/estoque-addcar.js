@@ -1,3 +1,5 @@
+import { formatNumberBR } from "./car-crud.js";
+
 function createCard(id, name, price) {
   const colDiv = document.createElement("div");
   colDiv.className = "col";
@@ -20,7 +22,7 @@ function createCard(id, name, price) {
 
   const cardTitle = document.createElement("h5");
   cardTitle.className = "card-title text-white";
-  cardTitle.innerText = "R$ " + price.toLocaleString("pt-BR");
+  cardTitle.innerText = "R$ " + formatNumberBR(price.toLocaleString("pt-BR"));
 
   const button = document.createElement("button");
   button.type = "button";

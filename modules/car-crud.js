@@ -1,5 +1,8 @@
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+function formatNumberBR(x) {
+  x = Number(x);
+  let parts = x.toFixed(2).split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return parts.join(",");
 }
 
 async function fetchCars() {
@@ -20,7 +23,7 @@ async function fetchCars() {
     carElement.className =
       "container mt-5 p-1 d-flex justify-content-center align-items-center";
     carElement.innerHTML = `
-          <p class="text-light me-3">${car.name} - R$${numberWithCommas(
+          <p class="text-light me-3">${car.name} - R$${formatNumberBR(
       car.price
     )} - Quantidade: ${car.quantity}</p>
           <button class="btn btn-secondary me-2" onclick="editCar(${car.id}, '${
@@ -78,4 +81,4 @@ async function deleteCar(id) {
   fetchCars();
 }
 
-export { fetchCars, addCar, editCar, deleteCar };
+export { fetchCars, addCar, editCar, deleteCar, formatNumberBR };

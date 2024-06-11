@@ -22,18 +22,32 @@ db.connect((err) => {
   console.log("Connected to database.");
 });
 
+const getAllQuery = "SELECT * FROM cars";
+const getById = "SELECT * FROM cars WHERE id = ?";
+const insertQuery = "INSERT INTO cars SET ?";
+const updateQuery = "UPDATE cars SET ? WHERE id = ?";
+const deleteQuery = "DELETE FROM cars WHERE id = ?";
+
 app.get("/cars", (req, res) => {
-  db.query("SELECT * FROM cars", (err, results) => {
+  db.query(getAllQuery, (err, results) => {
     if (err) throw err;
-    res.json(results);
+    if (results.length === 0) {
+      res.status(404).json({ error: "Not found" });
+    } else {
+      res.status(200).json(results);
+    }
   });
 });
 
 app.get("/cars/:id", (req, res) => {
   const { id } = req.params;
-  db.query("SELECT * FROM cars WHERE id = ?", [id], (err, result) => {
+  db.query(getById, [id], (err, result) => {
     if (err) throw err;
-    res.json(result[0]);
+    if (result.length === 0) {
+      res.status(404).json({ error: "Not found" });
+    } else {
+      res.status(200).json(result[0]);
+    }
   });
 });
 
@@ -41,10 +55,16 @@ app.post("/cars", (req, res) => {
   const { name, price, quantity } = req.body;
   const car = { name, price, quantity };
   if (car && name && price && quantity) {
-    db.query("INSERT INTO cars SET ?", car, (err, result) => {
+    db.query(insertQuery, car, (err, result) => {
       if (err) throw err;
-      res.json({ id: result.insertId, ...car });
+      if (result && result.insertId) {
+        res.status(200).json({ id: result.insertId, ...car });
+      } else {
+        res.status(500).json({ error: "Error inserting car" });
+      }
     });
+  } else {
+    res.status(400).json({ error: "Missing required fields" });
   }
 });
 
@@ -53,18 +73,26 @@ app.put("/cars/:id", (req, res) => {
   const { name, price, quantity } = req.body;
   const car = { name, price, quantity };
   if (car) {
-    db.query("UPDATE cars SET ? WHERE id = ?", [car, id], (err, result) => {
+    db.query(updateQuery, [car, id], (err, result) => {
       if (err) throw err;
-      res.json({ id, ...car });
+      if (result.affectedRows === 0) {
+        res.status(404).json({ error: "Not found" });
+      } else {
+        res.status(200).json({ id, ...car });
+      }
     });
   }
 });
 
 app.delete("/cars/:id", (req, res) => {
   const { id } = req.params;
-  db.query("DELETE FROM cars WHERE id = ?", [id], (err, result) => {
+  db.query(deleteQuery, [id], (err, result) => {
     if (err) throw err;
-    res.json({ message: "Car deleted" });
+    if (result.affectedRows === 0) {
+      res.status(404).json({ error: "Not found" });
+    } else {
+      res.status(200).json({ message: "Car deleted" });
+    }
   });
 });
 
