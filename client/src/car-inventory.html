@@ -15,13 +15,18 @@
   <body>
     <nav class="navbar navbar-expand-lg bg-black">
       <div class="container-fluid">
-        <a class="navbar-brand" href=""
-          ><img src="../public/images/images.png" alt="" width="128px" height="64px"
-        /></a>
+        <a class="navbar-brand" href="">
+          <img
+            src="../public/images/images.png"
+            alt=""
+            width="128px"
+            height="64px"
+          />
+        </a>
         <div class="navbar-container">
           <div class="nav-item me-2 d-lg-none" id="nav-profile">
-            <a class="profile" type="button" href="login.html"
-              ><svg
+            <a class="profile" type="button" href="login.html">
+              <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
                 height="32"
@@ -71,8 +76,8 @@
             <div class="vr d-none d-lg-block bg-light"></div>
           </ul>
           <div class="nav-item d-none d-lg-block" id="nav-profile">
-            <a class="profile me-3" type="button" href="login.html"
-              ><svg
+            <a class="profile me-3" type="button" href="login.html">
+              <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
                 height="32"
@@ -101,17 +106,27 @@
         </div>
       </div>
     </nav>
-    <div class="container">
-      <div id="cars"></div>
+    <div class="container mt-5">
+      <div id="cars" class="mb-4"></div>
     </div>
-    <div
-      class="container mt-5 p-5 d-flex justify-content-center align-items-center"
-    >
-      <form id="car-form">
-        <input type="text" id="name" placeholder="Nome do carro" required />
-        <input type="number" id="price" placeholder="Preço do carro" required />
-        <input type="number" id="quantity" placeholder="Quantidade" required />
-        <button type="submit" class="btn btn-primary">Adicionar</button>
+    <div class="container mt-5 p-5 d-flex justify-content-center align-items-center">
+      <form id="car-form" class="w-30 p-4 border-0 rounded-0 shadow-sm bg-black">
+        <h2 class="mb-4 text-center text-light">Adicionar Novo Carro</h2>
+        <div class="mb-3">
+          <label for="name" class="form-label text-light">Nome do carro</label>
+          <input type="text" class="form-control rounded-0" id="name" placeholder="Nome do carro" required />
+        </div>
+        <div class="mb-3">
+          <label for="price" class="form-label text-light">Preço do carro</label>
+          <input type="number" class="form-control rounded-0" id="price" placeholder="Preço do carro" required />
+        </div>
+        <div class="mb-3">
+          <label for="quantity" class="form-label text-light">Quantidade</label>
+          <input type="number" class="form-control rounded-0" id="quantity" placeholder="Quantidade" required />
+        </div>
+        <div class="m-4 d-flex justify-content-center">
+          <button type="submit" class="btn btn-success">Adicionar</button>
+        </div>
       </form>
     </div>
     <script

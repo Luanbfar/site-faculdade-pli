@@ -130,3 +130,12 @@ h2 {
   justify-content: center;
   align-items: center;
 }
+
+#car-form .form-control:focus {
+  border-color: red !important;
+  box-shadow: 0 0 0 0.15rem red !important;
+}
+
+.table {
+  overflow: scroll !important;
+}
