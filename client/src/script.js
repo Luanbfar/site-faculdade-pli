@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("scroll", animateCards);
   }
 
-  if (windowURL === "/index.html") {
+  if (windowURL === "/index.html" || "/") {
     document.addEventListener("scroll", animateCards);
   }
 });
