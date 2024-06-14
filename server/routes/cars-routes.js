@@ -12,9 +12,9 @@ const db = mysql.createConnection({
   database: "apex_db",
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error("Database connection failed:", err.stack);
+db.connect((error) => {
+  if (error) {
+    console.error("Database connection failed:", error.stack);
     return;
   }
   console.log("Connected to database.");
@@ -29,9 +29,9 @@ const decrementQuery =
   "UPDATE cars SET quantity = quantity - 1 WHERE id = ? AND quantity > 0";
 
 router.get("/cars", (req, res) => {
-  db.query(getAllQuery, (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
+  db.query(getAllQuery, (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
     }
     if (results.length === 0) {
       res.status(404).json({ error: "Not found" });
@@ -43,9 +43,9 @@ router.get("/cars", (req, res) => {
 
 router.get("/cars/:id", (req, res) => {
   const { id } = req.params;
-  db.query(getById, [id], (err, result) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
+  db.query(getById, [id], (error, result) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
     }
     if (result.length === 0) {
       res.status(404).json({ error: "Not found" });
@@ -59,9 +59,9 @@ router.post("/cars", (req, res) => {
   const { name, price, quantity } = req.body;
   const car = { name, price, quantity };
   if (car && name && price && quantity) {
-    db.query(insertQuery, car, (err, result) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
+    db.query(insertQuery, car, (error, result) => {
+      if (error) {
+        return res.status(500).json({ error: error.message });
       }
       if (result && result.insertId) {
         res.status(200).json({ id: result.insertId, ...car });
@@ -79,9 +79,9 @@ router.put("/cars/:id", (req, res) => {
   const { name, price, quantity } = req.body;
   const car = { name, price, quantity };
   if (car) {
-    db.query(updateQuery, [car, id], (err, result) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
+    db.query(updateQuery, [car, id], (error, result) => {
+      if (error) {
+        return res.status(500).json({ error: error.message });
       }
       if (result.affectedRows === 0) {
         res.status(404).json({ error: "Not found" });
@@ -94,9 +94,9 @@ router.put("/cars/:id", (req, res) => {
 
 router.put("/cars/buy/:id", (req, res) => {
   const { id } = req.params;
-  db.query(decrementQuery, [id], (err, result) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
+  db.query(decrementQuery, [id], (error, result) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
     }
     if (result.affectedRows === 0) {
       res.status(404).json({ error: "Car not found or out of stock" });
@@ -108,9 +108,9 @@ router.put("/cars/buy/:id", (req, res) => {
 
 router.delete("/cars/:id", (req, res) => {
   const { id } = req.params;
-  db.query(deleteQuery, [id], (err, result) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
+  db.query(deleteQuery, [id], (error, result) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
     }
     if (result.affectedRows === 0) {
       res.status(404).json({ error: "Not found" });

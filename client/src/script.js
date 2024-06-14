@@ -6,6 +6,7 @@ import {
 } from "./modules/car-management.js";
 import { showCars } from "./modules/estoque-addcar.js";
 import { animateCards } from "./modules/anime.min.js";
+import { sendMail } from "./modules/send-email.js";
 
 const windowURL = window.location.pathname;
 
@@ -33,6 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (windowURL === "/index.html" || "/") {
     document.addEventListener("scroll", animateCards);
+  }
+
+  if (windowURL === "/contato.html") {
+    document.addEventListener("submit", sendMail);
   }
 });
 

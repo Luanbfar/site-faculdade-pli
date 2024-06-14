@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const carsRoutes = require("./routes/cars-routes");
+const contactsRoutes = require("./routes/contacts-routes");
 const path = require("path");
 
 const clientPath = path.join(__dirname, "../client");
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/api", carsRoutes);
+app.use("/api", contactsRoutes);
 app.use(express.static(clientPath));
 app.use(express.static(frontendPath));
 
