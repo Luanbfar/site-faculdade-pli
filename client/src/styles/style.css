@@ -83,8 +83,12 @@ h2 {
 }
 
 .container-stripe {
-  border: solid, black 2px;
-  height: 2px;
+  display: block;
+  border: solid;
+  border-color: black;
+  border-width: 3px;
+  border-radius: 100%;
+  height: 3px;
   width: 80%;
 }
 
