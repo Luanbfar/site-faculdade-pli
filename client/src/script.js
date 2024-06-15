@@ -6,7 +6,7 @@ import {
 } from "./modules/car-management.js";
 import { showCars } from "./modules/estoque-addcar.js";
 import { animateCards } from "./modules/anime.min.js";
-import { sendMail } from "./modules/send-email.js";
+import { sendMail, validateForm } from "./modules/send-email.js";
 
 const windowURL = window.location.pathname;
 
@@ -37,6 +37,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (windowURL === "/contato.html") {
+    const form = document.getElementById("contact-form");
+    const btn = document.getElementById("submit-btn");
+    form.addEventListener("input", () => {
+      if (validateForm()) {
+        btn.disabled = false;
+      } else {
+        btn.disabled = true;
+      }
+    });
     document.addEventListener("submit", sendMail);
   }
 });
