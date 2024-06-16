@@ -1,7 +1,7 @@
 import { formatNumberBR } from "./car-management.js";
 import { buyCar } from "./car-management.js";
 
-function createCard(id, name, price) {
+function createCard(id, name, price, quantity) {
   const colDiv = document.createElement("div");
   colDiv.className = "col";
 
@@ -27,11 +27,23 @@ function createCard(id, name, price) {
 
   const button = document.createElement("button");
   button.type = "button";
-  button.onclick = function () {
-    buyCar(id);
+  button.onclick = async function () {
+    if (quantity > 0) {
+      await buyCar(id, name, price);
+      quantity--;
+      if (quantity === 0) {
+        button.disabled = true;
+        button.innerText = "Indisponível";
+      }
+    }
   };
   button.className = "btn btn-danger rounded-0";
   button.innerText = "Comprar";
+
+  if (quantity === 0) {
+    button.disabled = true;
+    button.innerText = "Indisponível";
+  }
 
   cardBody.appendChild(cardText);
   cardBody.appendChild(cardTitle);
@@ -45,9 +57,9 @@ function createCard(id, name, price) {
   return colDiv;
 }
 
-function addCardToContainer(containerId, id, name, price) {
+function addCardToContainer(containerId, id, name, price, quantity) {
   const container = document.getElementById(containerId);
-  const card = createCard(id, name, price);
+  const card = createCard(id, name, price, quantity);
   container.appendChild(card);
 }
 
@@ -60,7 +72,8 @@ async function showCars() {
     let id = car.id;
     let name = car.name;
     let price = car.price;
-    addCardToContainer(containerId, id, name, price);
+    let quantity = car.quantity;
+    addCardToContainer(containerId, id, name, price, quantity);
   });
 }
 

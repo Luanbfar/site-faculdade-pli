@@ -113,21 +113,40 @@ async function deleteCar(id) {
   fetchCars();
 }
 
-async function buyCar(id) {
-  try {
-    const response = await fetch(`http://localhost:8080/api/cars/buy/${id}`, {
-      method: "PUT",
-    });
+async function buyCar(id, name, price) {
+  if (id && name && price) {
+    try {
+      const decrementStockResponse = await fetch(`http://localhost:8080/api/cars/buy/${id}`, {
+        method: "PUT",
+      });
 
-    if (!response.ok) {
-      throw new Error(`Failed to buy car: ${response.statusText}`);
+      if (!decrementStockResponse.ok) {
+        throw new Error(`Failed to decrement stock: ${decrementStockResponse.statusText}`);
+      }
+
+      const addPurchaseResponse = await fetch(`http://localhost:8080/api/cars/buy/${id}`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          car_name: name,
+          price: price,
+        })
+      });
+
+      if (!addPurchaseResponse.ok) {
+        throw new Error(`Failed to add purchase: ${addPurchaseResponse.statusText}`);
+      }
+
+    } catch (error) {
+      console.error("Erro ao comprar carro: ", error);
     }
-
-    const result = await response.json();
-    console.log(result.message);
-  } catch (error) {
-    console.error("Erro ao comprar carro: ", error);
+  } else {
+    console.error("Invalid values");
   }
 }
+
+
 
 export { fetchCars, addCar, editCar, deleteCar, buyCar, formatNumberBR };

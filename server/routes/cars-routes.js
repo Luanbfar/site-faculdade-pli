@@ -17,7 +17,7 @@ db.connect((error) => {
     console.error("Database connection failed:", error.stack);
     return;
   }
-  console.log("Connected to database.");
+  console.log("cars-routes.js connected to database.");
 });
 
 const getAllQuery = "SELECT * FROM cars";
@@ -25,8 +25,6 @@ const getById = "SELECT * FROM cars WHERE id = ?";
 const insertQuery = "INSERT INTO cars SET ?";
 const updateQuery = "UPDATE cars SET ? WHERE id = ?";
 const deleteQuery = "DELETE FROM cars WHERE id = ?";
-const decrementQuery =
-  "UPDATE cars SET quantity = quantity - 1 WHERE id = ? AND quantity > 0";
 
 router.get("/cars", (req, res) => {
   db.query(getAllQuery, (error, results) => {
@@ -108,24 +106,6 @@ router.put("/cars/:id", (req, res) => {
   } else {
     return res.status(400).json({ error: "Missing required fields" });
   }
-});
-
-router.put("/cars/buy/:id", (req, res) => {
-  const { id } = req.params;
-  db.query(decrementQuery, [id], (error, result) => {
-    try {
-      if (error) {
-        throw error;
-      }
-      if (result.affectedRows === 0) {
-        res.status(404).json({ error: "Car not found or out of stock" });
-      } else {
-        res.status(200).json({ result });
-      }
-    } catch (error) {
-      return res.status(500).json({ error: error.message });
-    }
-  });
 });
 
 router.delete("/cars/:id", (req, res) => {
