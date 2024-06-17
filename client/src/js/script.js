@@ -24,6 +24,17 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("car-form").addEventListener("submit", addCar);
       fetchCars();
     }
+    const popupBox = document.getElementById("popup-box");
+    const openPopUp = document.getElementById("open-popup");
+
+    openPopUp.addEventListener("click", () => {
+      popupBox.style.display = "flex";
+    });
+    window.addEventListener("click", (e) => {
+      if (e.target === popupBox) {
+        popupBox.style.display = "none";
+      }
+    });
   }
 
   if (windowURL === "/estoque.html") {

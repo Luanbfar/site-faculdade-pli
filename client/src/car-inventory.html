@@ -124,28 +124,33 @@
         </div>
       </div>
     </nav>
-    <div class="container mt-5">
+    <div class="container mt-2 p-5 d-flex justify-content-center align-items-center">
+      <button type="button" class="btn btn-success" id="open-popup">Adicionar Novo Carro</button>
+    </div>
+    <div class="container mt-2">
       <div id="cars" class="mb-4"></div>
     </div>
-    <div class="container mt-5 p-5 d-flex justify-content-center align-items-center">
-      <form id="car-form" class="w-30 p-4 border-0 rounded-0 shadow-sm bg-black">
-        <h2 class="mb-4 text-center text-light">Adicionar Novo Carro</h2>
-        <div class="mb-3">
-          <label for="name" class="form-label text-light">Nome do carro</label>
-          <input type="text" class="form-control rounded-0" id="name" placeholder="Nome do carro" required />
-        </div>
-        <div class="mb-3">
-          <label for="price" class="form-label text-light">Preço do carro</label>
-          <input type="number" class="form-control rounded-0" id="price" placeholder="Preço do carro" required />
-        </div>
-        <div class="mb-3">
-          <label for="quantity" class="form-label text-light">Quantidade</label>
-          <input type="number" class="form-control rounded-0" id="quantity" placeholder="Quantidade" required />
-        </div>
-        <div class="m-4 d-flex justify-content-center">
-          <button type="submit" class="btn btn-success">Adicionar</button>
-        </div>
-      </form>
+    <div class="popup-overlay" id="popup-box">
+      <div class="popup-content">
+        <form id="car-form" class="w-100 p-4 border-0 rounded-0 shadow-sm bg-black">
+          <h2 class="mb-4 text-center text-light">Adicionar Novo Carro</h2>
+          <div class="mb-3">
+            <label for="name" class="form-label text-light">Nome do carro</label>
+            <input type="text" class="form-control rounded-0" id="name" placeholder="Nome do carro" required />
+          </div>
+          <div class="mb-3">
+            <label for="price" class="form-label text-light">Preço do carro</label>
+            <input type="number" class="form-control rounded-0" id="price" placeholder="Preço do carro" required />
+          </div>
+          <div class="mb-3">
+            <label for="quantity" class="form-label text-light">Quantidade</label>
+            <input type="number" class="form-control rounded-0" id="quantity" placeholder="Quantidade" required />
+          </div>
+          <div class="m-4 d-flex justify-content-center">
+            <button type="submit" class="btn btn-success">Adicionar</button>
+          </div>
+        </form>
+      </div>
     </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
