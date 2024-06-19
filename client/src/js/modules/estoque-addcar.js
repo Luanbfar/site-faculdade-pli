@@ -6,7 +6,7 @@ function createCard(id, name, price, quantity) {
   colDiv.className = "col";
 
   const cardDiv = document.createElement("div");
-  cardDiv.className = "card shadow bg-black rounded-0";
+  cardDiv.className = "card shadow bg-dark rounded-0";
   cardDiv.id = id;
 
   const img = document.createElement("img");
@@ -37,7 +37,7 @@ function createCard(id, name, price, quantity) {
       }
     }
   };
-  button.className = "btn btn-danger rounded-0";
+  button.className = "btn btn-dark rounded-0";
   button.innerText = "Comprar";
 
   if (quantity === 0) {
