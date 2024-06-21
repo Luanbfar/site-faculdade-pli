@@ -27,23 +27,26 @@ const updateQuery = "UPDATE cars SET ? WHERE id = ?";
 const deleteQuery = "DELETE FROM cars WHERE id = ?";
 
 router.get("/cars", (req, res) => {
+  let returnResult;
   db.query(getAllQuery, (error, results) => {
     try {
       if (error) {
         throw error;
       }
       if (results.length === 0) {
-        return res.status(404).json({ error: "Not found" });
+        returnResult = res.status(404).json({ error: "Not found" });
       } else {
-        return res.status(200).json(results);
+        returnResult = res.status(200).json(results);
       }
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      returnResult = res.status(500).json({ error: error.message });
     }
+    return returnResult;
   });
 });
 
 router.get("/cars/:id", (req, res) => {
+  let returnResult;
   const { id } = req.params;
   db.query(getById, [id], (error, result) => {
     try {
@@ -51,17 +54,19 @@ router.get("/cars/:id", (req, res) => {
         throw error;
       }
       if (result.length === 0) {
-        return res.status(404).json({ error: "Not found" });
+        returnResult = res.status(404).json({ error: "Not found" });
       } else {
-        return res.status(200).json(result[0]);
+        returnResult = res.status(200).json(result[0]);
       }
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      returnResult = res.status(500).json({ error: error.message });
     }
+    return returnResult;
   });
 });
 
 router.post("/cars", (req, res) => {
+  let returnResult;
   const { name, price, quantity } = req.body;
   const car = { name, price, quantity };
   if (car && name && price && quantity) {
@@ -71,20 +76,22 @@ router.post("/cars", (req, res) => {
           throw error;
         }
         if (result && result.insertId) {
-          return res.status(200).json({ id: result.insertId, ...car });
+          returnResult = res.status(200).json({ id: result.insertId, ...car });
         } else {
-          return res.status(500).json({ error: "Error inserting car" });
+          returnResult = res.status(500).json({ error: "Error inserting car" });
         }
       } catch (error) {
-        return res.status(500).json({ error: error.message });
+        returnResult = res.status(500).json({ error: error.message });
       }
     });
   } else {
-    return res.status(400).json({ error: "Missing required fields" });
+    returnResult = res.status(400).json({ error: "Missing required fields" });
   }
+  return returnResult;
 });
 
 router.put("/cars/:id", (req, res) => {
+  let returnResult;
   const { id } = req.params;
   const { name, price, quantity } = req.body;
   const car = { name, price, quantity };
@@ -95,20 +102,22 @@ router.put("/cars/:id", (req, res) => {
           throw error;
         }
         if (result.affectedRows === 0) {
-          return res.status(404).json({ error: "Not found" });
+          returnResult = res.status(404).json({ error: "Not found" });
         } else {
-          return res.status(200).json({ id, ...car });
+          returnResult = res.status(200).json({ id, ...car });
         }
       } catch (error) {
-        return res.status(500).json({ error: error.message });
+        returnResult = res.status(500).json({ error: error.message });
       }
     });
   } else {
-    return res.status(400).json({ error: "Missing required fields" });
+    returnResult = res.status(400).json({ error: "Missing required fields" });
   }
+  return returnResult;
 });
 
 router.delete("/cars/:id", (req, res) => {
+  let returnResult;
   const { id } = req.params;
   db.query(deleteQuery, [id], (error, result) => {
     try {
@@ -116,14 +125,15 @@ router.delete("/cars/:id", (req, res) => {
         throw error;
       }
       if (result.affectedRows === 0) {
-        res.status(404).json({ error: "Not found" });
+        returnResult = res.status(404).json({ error: "Not found" });
       } else {
-        res.status(200).json({ message: "Car deleted" });
+        returnResult = res.status(200).json({ message: "Car deleted" });
       }
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      returnResult = res.status(500).json({ error: error.message });
     }
   });
+  return returnResult;
 });
 
 module.exports = router;

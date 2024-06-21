@@ -8,6 +8,7 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
 router.post("/send-mail", (req, res) => {
+  let returnResult;
   const { name, email, msg } = req.body;
   if (name && email && msg) {
     let transporter = nodemailer.createTransport({
@@ -33,15 +34,16 @@ router.post("/send-mail", (req, res) => {
         if (error) {
           throw error;
         } else {
-          return res.status(200).json({ result });
+          returnResult = res.status(200).json({ result });
         }
       } catch (error) {
-        return res.status(500).json({ error: error.message });
+        returnResult = res.status(500).json({ error: error.message });
       }
     });
   } else {
-    return res.status(400).json({ error: "Missing required fields" });
+    returnResult = res.status(400).json({ error: "Missing required fields" });
   }
+  return returnResult;
 });
 
 module.exports = router;

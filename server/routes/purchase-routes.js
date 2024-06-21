@@ -25,6 +25,7 @@ const decrementQuery =
   "UPDATE cars SET quantity = quantity - 1 WHERE id = ? AND quantity > 0";
 
 router.post("/cars/buy/:id", (req, res) => {
+  let returnResult;
   const { id } = req.params;
   const { car_name, price } = req.body;
   const car = { id_car: id, car_name, price };
@@ -35,18 +36,20 @@ router.post("/cars/buy/:id", (req, res) => {
           throw error;
         }
         if (result && result.insertId) {
-          return res.status(200).json({ id: result.insertId, ...car });
+          returnResult = res.status(200).json({ id: result.insertId, ...car });
         }
       } catch (error) {
-        return res.status(500).json({ error: error.message });
+        returnResult = res.status(500).json({ error: error.message });
       }
     });
   } else {
-    return res.status(400).json({ error: "Missing required fields" });
+    returnResult = res.status(400).json({ error: "Missing required fields" });
   }
+  return returnResult;
 });
 
 router.put("/cars/buy/:id", (req, res) => {
+  let returnResult;
   const { id } = req.params;
   db.query(decrementQuery, [id], (error, result) => {
     try {
@@ -54,14 +57,15 @@ router.put("/cars/buy/:id", (req, res) => {
         throw error;
       }
       if (result.affectedRows === 0) {
-        res.status(404).json({ error: "Car not found or out of stock" });
+        returnResult = res.status(404).json({ error: "Car not found or out of stock" });
       } else {
-        res.status(200).json({ result });
+        returnResult = res.status(200).json({ result });
       }
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      returnResult = res.status(500).json({ error: error.message });
     }
   });
+  return returnResult;
 });
 
 module.exports = router;
