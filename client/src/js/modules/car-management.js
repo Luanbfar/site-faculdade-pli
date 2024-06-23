@@ -5,68 +5,86 @@ function formatNumberBR(x) {
   return parts.join(",");
 }
 
-async function fetchCars() {
-  const response = await fetch("http://localhost:8080/api/cars");
-  const cars = await response.json();
-  const carsDiv = document.getElementById("cars");
-  carsDiv.innerHTML = "";
-
-  if (cars.length === 0) {
-    const noCars = document.createElement("div");
-    noCars.className =
-      "container mt-5 d-flex justify-content-center align-items-center text-light";
-    noCars.innerHTML = "Sem carros";
-    carsDiv.appendChild(noCars);
-    return;
+function createHTMLElement(tagName, className, innerHTML) {
+  const element = document.createElement(tagName);
+  if (className) {
+    element.className = className;
   }
+  if (innerHTML) {
+    element.innerHTML = innerHTML;
+  }
+  return element;
+}
 
-  const table = document.createElement("table");
-  table.className = "table table-striped table-hover text-light";
+function createCarsTable(cars) {
+  const table = createHTMLElement("table", "table table-striped table-hover text-light");
 
-  const thead = document.createElement("thead");
-  thead.className = "table-dark";
+  const thead = createHTMLElement("thead", "table-dark");
+  const headers = ["Nome", "Preço", "Quantidade", "Ações"];
   thead.innerHTML = `
     <tr>
-      <th>Nome</th>
-      <th>Preço</th>
-      <th>Quantidade</th>
-      <th>Ações</th>
+      ${headers.map(header => `<th>${header}</th>`).join("")}
     </tr>
   `;
   table.appendChild(thead);
 
-  const tbody = document.createElement("tbody");
+  const tbody = createHTMLElement("tbody", "");
+  cars.forEach(car => {
+    const editBtnIcon = "<img src='./public/assets/pen.svg'>";
 
-  cars.forEach((car) => {
-    const editBtnIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
-  <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
-</svg>`;
+    const deleteBtnIcon = "<img src='./public/assets/trash.svg'>";
 
-    const deleteBtnIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-</svg>`;
+    const rowContent = [
+      `<td>${car.name}</td>`,
+      `<td>R$${formatNumberBR(car.price)}</td>`,
+      `<td>${car.quantity}</td>`,
+      `<td>
+         <button class="btn btn-secondary me-2" onclick="editCar(${car.id}, '${car.name}', ${car.price}, ${car.quantity})">${editBtnIcon}</button>
+         <button class="btn btn-danger" onclick="deleteCar(${car.id})">${deleteBtnIcon}</button>
+       </td>`
+    ];
 
-    const carRow = document.createElement("tr");
-    carRow.id = car.id;
-    carRow.innerHTML = `
-      <td>${car.name}</td>
-      <td>R$${formatNumberBR(car.price)}</td>
-      <td>${car.quantity}</td>
-      <td>
-        <button class="btn btn-secondary me-2" onclick="editCar(${car.id}, '${
-      car.name
-    }', ${car.price}, ${car.quantity})">${editBtnIcon}</button>
-        <button class="btn btn-danger" onclick="deleteCar(${
-          car.id
-        })">${deleteBtnIcon}</button>
-      </td>
-    `;
+    const carRow = createHTMLElement("tr", "", rowContent.join(""));
     tbody.appendChild(carRow);
   });
 
   table.appendChild(tbody);
+  return table;
+}
+
+function displayCars(cars) {
+  const carsDiv = document.getElementById("cars");
+  carsDiv.innerHTML = "";
+
+  if (cars.length === 0) {
+    displayNoCarsMessage(carsDiv);
+    return;
+  }
+
+  const table = createCarsTable(cars);
   carsDiv.appendChild(table);
+}
+
+function displayNoCarsMessage(container) {
+  const noCars = createHTMLElement("div", "container mt-5 d-flex justify-content-center align-items-center text-light", "Sem carros");
+  container.appendChild(noCars);
+}
+
+async function fetchCars() {
+  try {
+    const cars = await getCars();
+    displayCars(cars);
+  } catch (error) {
+    handleFetchError(error);
+  }
+}
+
+async function getCars() {
+  const response = await fetch("http://localhost:8080/api/cars");
+  if (!response.ok) {
+    throw new Error("Erro ao obter dados dos carros");
+  }
+  return await response.json();
 }
 
 async function addCar(event) {
@@ -116,29 +134,38 @@ async function deleteCar(id) {
 async function buyCar(id, name, price) {
   if (id && name && price) {
     try {
-      const decrementStockResponse = await fetch(`http://localhost:8080/api/cars/buy/${id}`, {
-        method: "PUT",
-      });
+      const decrementStockResponse = await fetch(
+        `http://localhost:8080/api/purchases/buy/${id}`,
+        {
+          method: "PUT",
+        }
+      );
 
       if (!decrementStockResponse.ok) {
-        throw new Error(`Failed to decrement stock: ${decrementStockResponse.statusText}`);
+        throw new Error(
+          `Failed to decrement stock: ${decrementStockResponse.statusText}`
+        );
       }
 
-      const addPurchaseResponse = await fetch(`http://localhost:8080/api/cars/buy/${id}`, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          car_name: name,
-          price: price,
-        })
-      });
+      const addPurchaseResponse = await fetch(
+        `http://localhost:8080/api/purchases/buy/${id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            car_name: name,
+            price: price,
+          }),
+        }
+      );
 
       if (!addPurchaseResponse.ok) {
-        throw new Error(`Failed to add purchase: ${addPurchaseResponse.statusText}`);
+        throw new Error(
+          `Failed to add purchase: ${addPurchaseResponse.statusText}`
+        );
       }
-
     } catch (error) {
       console.error("Erro ao comprar carro: ", error);
     }
@@ -147,6 +174,74 @@ async function buyCar(id, name, price) {
   }
 }
 
+async function fetchPurchases() {
+  try {
+    const purchases = await getPurchases();
+    displayPurchases(purchases);
+  } catch (error) {
+    handleFetchError(error);
+  }
+}
 
+async function getPurchases() {
+  const response = await fetch("http://localhost:8080/api/purchases");
+  if (!response.ok) {
+    throw new Error("Erro ao obter dados das compras");
+  }
+  return await response.json();
+}
 
-export { fetchCars, addCar, editCar, deleteCar, buyCar, formatNumberBR };
+function displayPurchases(purchases) {
+  const purchasesDiv = document.getElementById("purchases");
+  purchasesDiv.innerHTML = "";
+
+  if (purchases.length === 0) {
+    const noPurchases = createHTMLElement("div", "container mt-5 d-flex justify-content-center align-items-center text-light", "Sem vendas");
+    purchasesDiv.appendChild(noPurchases);
+    return;
+  }
+
+  const table = document.createElement("table");
+  table.className = "table table-striped table-hover text-light";
+
+  const thead = document.createElement("thead");
+  thead.className = "table-dark";
+  thead.innerHTML = `
+    <tr>
+      <th>Id da compra</th>
+      <th>Nome do carro</th>
+      <th>Preço</th>
+      <th>Horário da compra</th>
+    </tr>
+  `;
+  table.appendChild(thead);
+
+  const tbody = document.createElement("tbody");
+  purchases.forEach((purchase) => {
+    const purchaseRow = document.createElement("tr");
+    purchaseRow.innerHTML = `
+      <td>${purchase.id_purchase}</td>
+      <td>${purchase.car_name}</td>
+      <td>R$${formatNumberBR(purchase.price)}</td>
+      <td>${purchase.datetime}</td>
+    `;
+    tbody.appendChild(purchaseRow);
+  });
+
+  table.appendChild(tbody);
+  purchasesDiv.appendChild(table);
+}
+
+function handleFetchError(error) {
+  console.error("Erro na requisição:", error);
+}
+
+export {
+  fetchCars,
+  addCar,
+  editCar,
+  deleteCar,
+  buyCar,
+  fetchPurchases,
+  formatNumberBR,
+};

@@ -12,13 +12,3 @@ body {
   background-color: rgba(255, 255, 255, 0.1);
   color: white;
 }
-
-#login-button {
-  background-color: #dc3545;
-  border-color: #dc3545;
-}
-
-#login-button:hover {
-  background-color: #c82333;
-  border-color: #bd2130;
-}

@@ -20,11 +20,29 @@ db.connect((error) => {
   console.log("purchase-routes.js connected to database.");
 });
 
+const getPurchasesQuery = "SELECT * FROM purchases";
 const addPurchaseQuery = "INSERT INTO purchases SET ?";
 const decrementQuery =
   "UPDATE cars SET quantity = quantity - 1 WHERE id = ? AND quantity > 0";
 
-router.post("/cars/buy/:id", (req, res) => {
+router.get("/purchases", (req, res) => {
+  let returnResult;
+  db.query(getPurchasesQuery, (error, results) => {
+    try {
+      if (error) {
+        throw error;
+      }
+      if (results) {
+        returnResult = res.status(200).json(results)
+      }
+    } catch (error) {
+      returnResult = res.status(500).json({ error: error.message })
+    }
+  })
+  return returnResult;
+})
+
+router.post("/purchases/buy/:id", (req, res) => {
   let returnResult;
   const { id } = req.params;
   const { car_name, price } = req.body;
@@ -48,7 +66,7 @@ router.post("/cars/buy/:id", (req, res) => {
   return returnResult;
 });
 
-router.put("/cars/buy/:id", (req, res) => {
+router.put("/purchases/buy/:id", (req, res) => {
   let returnResult;
   const { id } = req.params;
   db.query(decrementQuery, [id], (error, result) => {
