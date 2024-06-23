@@ -7,22 +7,23 @@ require("dotenv").config();
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
 
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    type: "OAuth2",
+    user: process.env.USER_EMAIL,
+    pass: process.env.USER_PASS,
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    accessToken: process.env.ACCESS_TOKEN,
+    refreshToken: process.env.REFRESH_TOKEN,
+  },
+});
+
 router.post("/send-mail", (req, res) => {
   let returnResult;
   const { name, email, msg } = req.body;
   if (name && email && msg) {
-    let transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        type: "OAuth2",
-        user: process.env.USER_EMAIL,
-        pass: process.env.USER_PASS,
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        accessToken: process.env.ACCESS_TOKEN,
-        refreshToken: process.env.REFRESH_TOKEN,
-      },
-    });
     let mailOptions = {
       from: email,
       to: process.env.USER_EMAIL,

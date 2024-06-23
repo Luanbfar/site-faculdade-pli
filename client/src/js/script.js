@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.disabled = true;
       }
     });
-    document.addEventListener("submit", sendMail);
+    form.addEventListener("submit", sendMail);
   }
 });
 
