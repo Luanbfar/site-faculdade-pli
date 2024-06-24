@@ -56,12 +56,15 @@ document.addEventListener("DOMContentLoaded", () => {
         btn1.classList.remove("active");
         btn2.classList.add("active");
       });
+      break;
     case "/estoque.html":
       showCars();
       document.dispatchEvent(new Event("cardsAdded"));
       document.addEventListener("scroll", animateCards);
+      break;
     case "/index.html" || "/":
       document.addEventListener("scroll", animateCards);
+      break;
     case "/contato.html":
       const contactForm = document.getElementById("contact-form");
       const btn = document.getElementById("submit-btn");
@@ -73,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
       contactForm.addEventListener("submit", sendMail);
+      break;
     case "/login.html":
       const loginForm = document.getElementById("login-form");
       loginForm.addEventListener("submit", (event) => {
@@ -85,6 +89,10 @@ document.addEventListener("DOMContentLoaded", () => {
           console.log("Acesso negado");
         }
       });
+      break;
+    default:
+      document.write("Página não encontrada");
+      break;
   }
 });
 
