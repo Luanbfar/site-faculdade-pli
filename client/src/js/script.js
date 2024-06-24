@@ -19,78 +19,72 @@ window.fetchPurchases = fetchPurchases;
 window.animateCards = animateCards;
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (windowURL === "/car-management.html") {
-    const carForm = document.getElementById("car-form");
-    if (carForm) {
-      document.getElementById("car-form").addEventListener("submit", addCar);
-      fetchCars();
-      fetchPurchases();
-    }
-    const popupBox = document.getElementById("popup-box");
-    const openPopUp = document.getElementById("open-popup");
-
-    openPopUp.addEventListener("click", () => {
-      popupBox.style.display = "flex";
-    });
-    window.addEventListener("click", (e) => {
-      if (e.target === popupBox) {
-        popupBox.style.display = "none";
+  switch (windowURL) {
+    case "/car-management.html":
+      const carForm = document.getElementById("car-form");
+      if (carForm) {
+        document.getElementById("car-form").addEventListener("submit", addCar);
+        fetchCars();
+        fetchPurchases();
       }
-    });
+      const popupBox = document.getElementById("popup-box");
+      const openPopUp = document.getElementById("open-popup");
 
-    const btn1 = document.getElementById("btn-stock");
-    const btn2 = document.getElementById("btn-purchases");
-    const containerStock = document.querySelector(".container-stock");
-    const containerPurchases = document.querySelector(".container-purchases");
+      openPopUp.addEventListener("click", () => {
+        popupBox.style.display = "flex";
+      });
+      window.addEventListener("click", (e) => {
+        if (e.target === popupBox) {
+          popupBox.style.display = "none";
+        }
+      });
 
-    btn1.addEventListener("click", () => {
-      containerStock.classList.remove("hidden");
-      containerPurchases.classList.add("hidden");
-      btn1.classList.add("active");
-      btn2.classList.remove("active");
-    });
-    btn2.addEventListener("click", () => {
-      containerStock.classList.add("hidden");
-      containerPurchases.classList.remove("hidden");
-      btn1.classList.remove("active");
-      btn2.classList.add("active");
-    });
-  }
+      const btn1 = document.getElementById("btn-stock");
+      const btn2 = document.getElementById("btn-purchases");
+      const containerStock = document.querySelector(".container-stock");
+      const containerPurchases = document.querySelector(".container-purchases");
 
-  if (windowURL === "/estoque.html") {
-    showCars();
-    document.dispatchEvent(new Event("cardsAdded"));
-    document.addEventListener("scroll", animateCards);
-  }
-
-  if (windowURL === "/index.html" || "/") {
-    document.addEventListener("scroll", animateCards);
-  }
-
-  if (windowURL === "/contato.html") {
-    const form = document.getElementById("contact-form");
-    const btn = document.getElementById("submit-btn");
-    form.addEventListener("input", () => {
-      if (validateForm()) {
-        btn.disabled = false;
-      } else {
-        btn.disabled = true;
-      }
-    });
-    form.addEventListener("submit", sendMail);
-  }
-  if (windowURL === "/login.html") {
-    const form = document.getElementById("login-form");
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      if (email === "email@example.com" && password === "12345") {
-        window.location.pathname = "/car-management.html";
-      } else {
-        console.log("Acesso negado");
-      }
-    })
+      btn1.addEventListener("click", () => {
+        containerStock.classList.remove("hidden");
+        containerPurchases.classList.add("hidden");
+        btn1.classList.add("active");
+        btn2.classList.remove("active");
+      });
+      btn2.addEventListener("click", () => {
+        containerStock.classList.add("hidden");
+        containerPurchases.classList.remove("hidden");
+        btn1.classList.remove("active");
+        btn2.classList.add("active");
+      });
+    case "/estoque.html":
+      showCars();
+      document.dispatchEvent(new Event("cardsAdded"));
+      document.addEventListener("scroll", animateCards);
+    case "/index.html" || "/":
+      document.addEventListener("scroll", animateCards);
+    case "/contato.html":
+      const contactForm = document.getElementById("contact-form");
+      const btn = document.getElementById("submit-btn");
+      contactForm.addEventListener("input", () => {
+        if (validateForm()) {
+          btn.disabled = false;
+        } else {
+          btn.disabled = true;
+        }
+      });
+      contactForm.addEventListener("submit", sendMail);
+    case "/login.html":
+      const loginForm = document.getElementById("login-form");
+      loginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        if (email === "email@example.com" && password === "12345") {
+          window.location.pathname = "/car-management.html";
+        } else {
+          console.log("Acesso negado");
+        }
+      });
   }
 });
 
