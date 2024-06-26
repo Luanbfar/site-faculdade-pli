@@ -62,7 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
       document.dispatchEvent(new Event("cardsAdded"));
       document.addEventListener("scroll", animateCards);
       break;
-    case "/index.html" || "/":
+    case "/index.html":
+    case "/":
       document.addEventListener("scroll", animateCards);
       break;
     case "/contato.html":
