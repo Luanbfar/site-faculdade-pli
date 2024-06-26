@@ -6,7 +6,7 @@ import {
   fetchPurchases,
 } from "./modules/car-management.js";
 import { showCars } from "./modules/estoque-addcar.js";
-import { animateCards } from "./modules/anime.min.js";
+import { animateCards, animateContent } from "./modules/anime.min.js";
 import { sendMail, validateForm } from "./modules/send-email.js";
 const windowURL = window.location.pathname;
 
@@ -17,6 +17,7 @@ window.deleteCar = deleteCar;
 window.showCars = showCars;
 window.fetchPurchases = fetchPurchases;
 window.animateCards = animateCards;
+window.animateContent = animateContent;
 
 document.addEventListener("DOMContentLoaded", () => {
   switch (windowURL) {
@@ -64,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
       break;
     case "/index.html":
     case "/":
-      document.addEventListener("scroll", animateCards);
+      document.addEventListener("scroll", animateContent);
       break;
     case "/contato.html":
       const contactForm = document.getElementById("contact-form");
