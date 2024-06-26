@@ -56,7 +56,7 @@ function displayCars(cars) {
   const carsDiv = document.getElementById("cars");
   carsDiv.innerHTML = "";
 
-  if (cars.length === 0) {
+  if (cars == "404") {
     displayNoCarsMessage(carsDiv);
     return;
   }
@@ -80,11 +80,17 @@ async function fetchCars() {
 }
 
 async function getCars() {
+  let result;
   const response = await fetch("http://localhost:8080/api/cars");
-  if (!response.ok) {
-    throw new Error("Erro ao obter dados dos carros");
+  if (response.status == "404") {
+    result = response.status;
   }
-  return await response.json();
+  else if (!response.ok) {
+    throw new Error("Erro ao obter dados dos carros");
+  } else {
+    result = await response.json();
+  }
+  return result;
 }
 
 async function addCar(event) {
@@ -223,7 +229,7 @@ function displayPurchases(purchases) {
       <td>${purchase.id_purchase}</td>
       <td>${purchase.car_name}</td>
       <td>R$${formatNumberBR(purchase.price)}</td>
-      <td>${purchase.datetime}</td>
+      <td>${purchase.date_time}</td>
     `;
     tbody.appendChild(purchaseRow);
   });
