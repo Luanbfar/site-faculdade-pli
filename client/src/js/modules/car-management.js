@@ -226,7 +226,7 @@ function displayPurchases(purchases) {
   purchases.forEach((purchase) => {
     const purchaseRow = document.createElement("tr");
     purchaseRow.innerHTML = `
-      <td>${purchase.id_purchase}</td>
+      <td>${purchase.id}</td>
       <td>${purchase.car_name}</td>
       <td>R$${formatNumberBR(purchase.price)}</td>
       <td>${purchase.date_time}</td>
